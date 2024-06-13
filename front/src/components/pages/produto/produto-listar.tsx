@@ -8,19 +8,26 @@ function ProdutoListar() {
 
   useEffect(() => {
     console.log("Carregou componente");
+    carregarProdutos();
+    
+  }, []);
 
+  function carregarProdutos(){
     fetch("http://localhost:5169/produtos/listar")
       .then((resposta) => resposta.json())
-      .then((produtos: Produto[]) => {
+      .then((produtos: Produto[]) =>{
         setProdutos(produtos);
+        console.table(produtos);
+      })
+      .catch((erro) =>{
+        console.log("Deu Erro!");
       });
-  }, []);
+  }
 
   function deletar(id: string){
     axios.delete(`http://localhost:5169/produtos/deletar/${id}`)
         .then(resposta => {
-            console.log(resposta);
-            //setProdutos(resposta.data);
+            setProdutos(resposta.data);
         });
   }
 
